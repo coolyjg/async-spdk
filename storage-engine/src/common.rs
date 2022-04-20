@@ -1,15 +1,13 @@
-use std::sync::Arc;
 use async_spdk::blob::*;
 use async_spdk::SpdkError;
+use std::sync::Arc;
 
 pub type Result<T> = std::result::Result<T, SpdkError>;
 
-
-
 /// supported operation list
-pub enum Op{
+pub enum Op {
     /// data write/read offset, bid, buf should be provided
-    Write, 
+    Write,
     Read,
     /// create a new blob, blob_size should be provided
     CreateBlob,
@@ -18,23 +16,23 @@ pub enum Op{
 }
 
 #[derive(Debug, Copy, Clone)]
-pub struct OpCtx{
+pub struct OpCtx {
     offset: u64,
     blob_id: BlobId,
     blob_size: u64,
 }
 
-impl OpCtx{
-    pub fn init_io_ctx(offset: u64, blob_id: BlobId)-> Self{
-        Self{
+impl OpCtx {
+    pub fn init_io_ctx(offset: u64, blob_id: BlobId) -> Self {
+        Self {
             offset: offset,
             blob_id: blob_id,
             blob_size: 0,
         }
     }
 
-    pub fn init_blob_ctx(blob_size: u64) -> Self{
-        Self{
+    pub fn init_blob_ctx(blob_size: u64) -> Self {
+        Self {
             offset: 0,
             blob_id: BlobId::set_blob_id(0),
             blob_size: blob_size,
@@ -42,17 +40,13 @@ impl OpCtx{
     }
 }
 
-
-
-
 #[derive(Debug)]
-pub struct EngineBlob{
+pub struct EngineBlob {
     pub bl: BlobId,
 }
 
-impl EngineBlob{
-    pub fn get_id(&self) -> Result<BlobId>{
+impl EngineBlob {
+    pub fn get_id(&self) -> Result<BlobId> {
         Ok(self.bl)
     }
 }
-

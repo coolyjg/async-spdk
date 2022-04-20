@@ -1,8 +1,8 @@
+use async_spdk::*;
 use log::*;
 use storage_engine::*;
-use async_spdk::*;
 
-fn main(){
+fn main() {
     env_logger::init();
     event::AppOpts::new()
         .name("madio_test")
@@ -11,7 +11,7 @@ fn main(){
         .unwrap();
 }
 
-async fn test_helper(name: &str)->Result<()>{
+async fn test_helper(name: &str) -> Result<()> {
     let de = DeviceEngine::new(name).await?;
     let b = de.create_blob(4).await?;
     let bid = b.get_id()?;
@@ -26,9 +26,9 @@ async fn test_helper(name: &str)->Result<()>{
     de.read(0, bid, read_buf.as_mut()).await?;
 
     // check whether data matches
-    if write_buf.as_ref() != read_buf.as_ref(){
+    if write_buf.as_ref() != read_buf.as_ref() {
         error!("fail test!");
-    }else{
+    } else {
         info!("pass test...");
     }
 
